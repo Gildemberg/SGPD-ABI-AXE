@@ -1,8 +1,11 @@
-# Definir imagem base
-FROM python:3.11-slim
+FROM python:3.9-slim
 
-# Instalar dependências de sistema para pacotes Python que necessitam de compilação
-RUN apt-get update && apt-get install -y build-essential libpq-dev
+# Instalar dependências de sistema necessárias para compilação de pacotes Python
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    libmysqlclient-dev \
+    build-essential \
+    libpq-dev
 
 # Definir o diretório de trabalho
 WORKDIR /app
@@ -10,10 +13,10 @@ WORKDIR /app
 # Copiar o arquivo de requisitos para o container
 COPY requirements.txt .
 
-# Atualizar o pip para a versão mais recente
+# Atualizar pip para a versão mais recente
 RUN pip install --upgrade pip
 
-# Instalar dependências
+# Instalar as dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar o código da aplicação para o container
