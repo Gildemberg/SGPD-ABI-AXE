@@ -19,6 +19,9 @@ RUN pip install --upgrade pip
 # Instalar as dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Executa collectstatic
+RUN python manage.py collectstatic --noinput
+
 # Copiar o código da aplicação para o container
 COPY . .
 
