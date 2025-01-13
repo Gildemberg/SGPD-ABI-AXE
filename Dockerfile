@@ -1,23 +1,23 @@
-# Use uma imagem base do Python
+# Definir imagem base
 FROM python:3.11-slim
 
-# Defina um diretório de trabalho dentro do contêiner
+# Instalar dependências de sistema para pacotes Python que necessitam de compilação
+RUN apt-get update && apt-get install -y build-essential libpq-dev
+
+# Definir o diretório de trabalho
 WORKDIR /app
 
-# Copie o arquivo de requisitos para dentro do contêiner
-COPY requirements.txt /app/
+# Copiar o arquivo de requisitos para o container
+COPY requirements.txt .
 
-# Instale as dependências do projeto
+# Atualizar o pip para a versão mais recente
+RUN pip install --upgrade pip
+
+# Instalar dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copie o código do projeto para dentro do contêiner
-COPY . /app/
+# Copiar o código da aplicação para o container
+COPY . .
 
-# Defina a variável de ambiente para produção
-ENV DJANGO_SETTINGS_MODULE=core.settings.production
-
-# Exponha a porta que o servidor irá rodar
-EXPOSE 8000
-
-# Comando para rodar o servidor Waitress
-CMD ["python", "core/wsgi.py"]
+# Definir o comando de execução do container
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
