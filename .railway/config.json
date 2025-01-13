@@ -1,0 +1,18 @@
+{
+  "build": {
+    "commands": [
+      "pip install --no-cache-dir -r requirements.txt",
+      "python manage.py migrate --noinput",
+      "python manage.py collectstatic --noinput"
+    ]
+  },
+  "deploy": {
+    "commands": [
+      "gunicorn core.wsgi:application --bind 0.0.0.0:8080"
+    ],
+    "preDeployCommands": [
+      "python manage.py migrate --noinput",
+      "echo \"from django.contrib.auth.models import User; User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'admin@example.com', 'admin123')\" | python manage.py shell"
+    ]
+  }
+}
