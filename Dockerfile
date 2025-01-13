@@ -21,4 +21,3 @@ EXPOSE 8000
 
 # Comando para rodar o servidor Waitress
 CMD ["python", "core/wsgi.py"]
-g
