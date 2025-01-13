@@ -1,28 +1,24 @@
-# Use uma imagem base leve com Python
-FROM python:3.10-slim
+# Use uma imagem base do Python
+FROM python:3.11-slim
 
-# Atualize e instale dependências do sistema
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    default-libmysqlclient-dev \
-    gcc \
-    && apt-get clean
-
-# Configure o diretório de trabalho no container
+# Defina um diretório de trabalho dentro do contêiner
 WORKDIR /app
 
-# Copie os arquivos do projeto para o container
+# Copie o arquivo de requisitos para dentro do contêiner
+COPY requirements.txt /app/
+
+# Instale as dependências do projeto
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copie o código do projeto para dentro do contêiner
 COPY . /app/
 
-# Configure o ambiente virtual
-RUN python -m venv /opt/venv
+# Defina a variável de ambiente para produção
+ENV DJANGO_SETTINGS_MODULE=core.settings.production
 
-# Ative o ambiente virtual e instale as dependências
-RUN /opt/venv/bin/pip install --upgrade pip
-RUN /opt/venv/bin/pip install -r requirements.txt   --verbose
+# Exponha a porta que o servidor irá rodar
+EXPOSE 8000
 
-# Adicione o ambiente virtual ao PATH
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Comando padrão para iniciar o servidor
-CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Comando para rodar o servidor Waitress
+CMD ["python", "core/wsgi.py"]
+g
