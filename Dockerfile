@@ -19,7 +19,7 @@ RUN python -m venv /opt/venv
 
 # Ative o ambiente virtual e instale as dependências
 RUN /opt/venv/bin/pip install --upgrade pip
-RUN /opt/venv/bin/pip install -r requirements.txt
+RUN /opt/venv/bin/pip install -r requirements.txt --verbose
 
 # Adicione o ambiente virtual ao PATH
 ENV PATH="/opt/venv/bin:$PATH"
