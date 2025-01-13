@@ -22,5 +22,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar o código da aplicação para o container
 COPY . .
 
-# Definir o comando de execução do container
+# Definir o comando de execução do containers
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
