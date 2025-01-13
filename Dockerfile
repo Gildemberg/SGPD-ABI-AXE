@@ -3,7 +3,7 @@ FROM python:3.11-slim
 # Instalar dependências de sistema necessárias para compilação de pacotes Python
 RUN apt-get update && apt-get install -y \
     pkg-config \
-    libmysqlclient-dev \
+    libmariadbg-dev \
     build-essential \
     libpq-dev
 
