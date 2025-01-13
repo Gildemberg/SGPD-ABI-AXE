@@ -19,11 +19,11 @@ RUN pip install --upgrade pip
 # Instalar as dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Executa collectstatic
-RUN python manage.py collectstatic --noinput
-
 # Copiar o código da aplicação para o container
 COPY . .
+
+# Executa collectstatic
+RUN python manage.py collectstatic --noinput
 
 # Definir o comando de execução do containers
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
